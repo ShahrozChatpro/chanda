@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chanda | A Love Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-glow: #ff0055;
+            --deep-space: #050505;
+            --gold: #e2b007;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+        body {
+            background-color: var(--deep-space);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Custom Magic Cursor --- */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        /* --- Background Animation --- */
+        .bg-glow {
+            position: fixed;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(255,0,85,0.15) 0%, rgba(0,0,0,0) 70%);
+            top: -10%;
+            left: -10%;
+            z-index: -1;
+            filter: blur(50px);
+            animation: moveGlow 20s infinite alternate;
+        }
+
+        @keyframes moveGlow {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40vw, 30vh); }
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            perspective: 1000px;
+        }
+
+        /* --- 1. The Hero Section --- */
+        .hero-content { text-align: center; }
+        
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 0;
+            background: linear-gradient(to bottom, #fff 30%, var(--pink-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleEntrance 2s ease-out;
+        }
+
+        .nana-dedication {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--gold);
+            opacity: 0;
+            animation: fadeIn 2s forwards 1s;
+        }
+
+        /* --- 2. The Holographic Scanner --- */
+        .hologram-card {
+            width: 350px;
+            height: 450px;
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 40px;
+            backdrop-filter: blur(20px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            transform: rotateY(10deg);
+            transition: transform 0.5s ease;
+        }
+
+        .hologram-card:hover { transform: rotateY(0deg) scale(1.02); }
+
+        .scan-circle {
+            width: 150px;
+            height: 150px;
+            border: 2px solid var(--pink-glow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        .scan-circle::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid white;
+            border-radius: 50%;
+            animation: radar 3s infinite;
+        }
+
+        .loading-text {
+            margin-top: 30px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        /* --- 3. Interactive Stats --- */
+        .stat-grid {
+            display: grid;
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .stat-item {
+            background: var(--glass);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stat-progress {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 4px;
+            background: var(--pink-glow);
+            width: 0;
+            transition: width 2s ease;
+        }
+
+        /* --- 4. The Mission Button --- */
+        .mission-btn {
+            background: white;
+            color: black;
+            padding: 20px 50px;
+            border-radius: 100px;
+            font-weight: 600;
+            border: none;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-btn:hover {
+            background: var(--pink-glow);
+            color: white;
+            transform: scale(1.1) rotate(-2deg);
+        }
+
+        /* --- Animations --- */
+        @keyframes titleEntrance {
+            from { opacity: 0; transform: translateY(50px) skewY(5deg); }
+            to { opacity: 1; transform: translateY(0) skewY(0deg); }
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,0,85,0.7); } 70% { box-shadow: 0 0 0 20px rgba(255,0,85,0); } 100% { box-shadow: 0 0 0 0 rgba(255,0,85,0); } }
+        @keyframes radar { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div class="bg-glow"></div>
+
+    <section>
+        <div class="hero-content">
+            <h1 class="main-title">Fatima.</h1>
+            <p class="nana-dedication">"Chanda — The moon her Nana lovingly spoke of"</p>
+            <div style="margin-top: 30px; opacity: 0.4; font-size: 0.8rem;">[ Scroll to explore her essence ]</div>
+        </div>
+    </section>
+
+    <section>
+        <div class="hologram-card">
+            <div class="scan-circle">
+                <span style="font-size: 2rem;">🌙</span>
+            </div>
+            <p class="loading-text" id="status">Syncing Love Frequencies...</p>
+            <h3 id="main-status" style="margin-top: 10px; color: var(--pink-glow);">Ready to Scan</h3>
+        </div>
+    </section>
+
+    <section id="stats-trigger">
+        <div class="stat-grid">
+            <div class="stat-item">
+                <span>Mafia Boss Aura</span>
+                <span class="gold">CRITICAL LEVEL</span>
+                <div class="stat-progress" data-percent="98"></div>
+            </div>
+            <div class="stat-item">
+                <span>Sweetness (🍯)</span>
+                <span>∞</span>
+                <div class="stat-progress" data-percent="100"></div>
+            </div>
+            <div class="stat-item">
+                <span>Nap Capacity</span>
+                <span>PROFESSIONAL</span>
+                <div class="stat-progress" data-percent="95"></div>
+            </div>
+            <div class="stat-item">
+                <span>Heart Quality</span>
+                <span>PURE GOLD</span>
+                <div class="stat-progress" data-percent="100" style="background: var(--gold);"></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div style="text-align: center; max-width: 500px;">
+            <h2 style="font-family: 'Playfair Display'; font-size: 3rem; margin-bottom: 20px;">The Final Mission</h2>
+            <p style="opacity: 0.7; margin-bottom: 40px;">To finalize this digital sanctuary, a deposit of 10 photographs is required by the High Command.</p>
+            <button class="mission-btn" onclick="fireworks()">Accept Mission</button>
+        </div>
+    </section>
+
+    <canvas id="canvas" style="position: fixed; top:0; left:0; pointer-events:none; z-index:9999;"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        // Cursor Follow
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Status Changer
+        const messages = ["Analyzing Smile...", "Detecting Pure Vibes...", "Mafia Energy: 100%", "Finding Chanda...", "Aashiqui Mode Active"];
+        let i = 0;
+        setInterval(() => {
+            document.getElementById('main-status').innerText = messages[i];
+            i = (i + 1) % messages.length;
+        }, 2500);
+
+        // Scroll Reveal for Stats
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    document.querySelectorAll('.stat-progress').forEach(p => {
+                        p.style.width = p.getAttribute('data-percent') + '%';
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(document.getElementById('stats-trigger'));
+
+        // Fireworks Function
+        function fireworks() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff0055', '#ffffff', '#e2b007']
+            });
+            alert("Mission Locked! 📸 Waiting for those 10 pics, Boss.");
+        }
+
+        // Audio Handler
+        const audio = new Audio('music.mp3');
+        document.addEventListener('click', () => {
+            audio.play();
+        }, { once: true });
+    </script>
+</body>
+</html>
